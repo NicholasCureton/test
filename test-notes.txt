@@ -1,1 +1,12 @@
-this is test notes.
+How to use github in terminal.
+
+Useflul commands:
+
+git status
+git add.
+git commit -m "write a msg here"
+git push
+
+
+
+
