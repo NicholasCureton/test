@@ -1,0 +1,43 @@
+-- change variables name without effecting same alphabat. --
+
+let say we have
+foo food foo foodie foogy foo
+and we want to change only the word "foo"
+
+We can do it in vim command mode
+:%s/\<foo\>/bar/g
+%s mean substitute.( replace )
+/ mean forward search
+\< to write <
+\> to write >
+g mean globally , i guess.
+
+but if you write this on ~./vimrc file, 
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
+You can just press <Leader>s on the word you wanna change
+then type
+
+/bar/gc gc mean globally comfirm
+or 
+/bar/g
+
+------------------------------------------------------------
+
+
+Repeat last : command 
+@:
+Sometime it give me error msg about command is too recursive.
+
+
+------------------------------------------------------------
+
+type >> to indent a line in normal mode.
+<< to de-indent.
+
+CTRL-T indent in insert mode.
+CTRL-D de-indent in insert mode.
+
+------------------------------------------------------------
+
+------------------------------------------------------------
