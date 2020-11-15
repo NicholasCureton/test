@@ -40,4 +40,64 @@ CTRL-D de-indent in insert mode.
 
 ------------------------------------------------------------
 
+Working with new TABs
+
+:tabedit <dir> or file
+
 ------------------------------------------------------------
+
+Type :! <command> in vim to run terminal command inside vim.
+
+Since Vim8.0, :term command will split vim screen and open 
+new terminal inside it.
+
+:resize +60
+:res -60    "to resize vim pane"
+:vertical resize +5
+:vertical resize -5
+
+
+:h <vim-command>  " get help for vim commannd"
+<C-w> <C-j> move pane to left. Use hjkl
+<C-w> HJKL Swap pane to that direction
+
+tmux view mode is <C-b> [ then PageUp PageDown or Arrow keys to move
+q to quit
+
+--------------------
+
+My experience with COC-Nvim
+
+I installed that plugin to use mainly for python autocompletion.
+But it can also do error Linting using pylint as default linter.
+
+COC-Nvim need Node.js to work. So I've to install Node.js version >= 10.12
+npm
+There is a unusual pkg manager called "pip" or "pip3".
+Coc python completion use jedi or microsoft language server.
+But MLS didn't seen to work and coc gave me jedi error if jedi wasn't installed.
+
+So I installed jedi using pip3 pkg manager and coc python autocompletion finally works!
+
+----------------------------------------
+
+tmux and vim-airline
+tmux have to config to 256 color.
+If not, vim-airline didn't show correct color.
+
+----------------------------------------
+
+tmux copy mode
+<C-b> [ :then <C-space> to start copy text 
+Use arrow keys to select text.
+<C-W> to copy text into tmux clipboard.
+<C-b> ] to paste copied text.
+
+----------------------------------------
+
+termux-style color number 35, 64, 84
+No.35 is flat dark theme (best in the night)
+Others are solarized themes
+No.35 is look best with vim colorscheme ron
+
+----------------------------------------
