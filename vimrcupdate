@@ -60,7 +60,7 @@ let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " Replace Space chracter into dash - char
 set list
-set listchars=tab:>-,trail:-
+set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 "-----------------------------------------------------------
 " -- Airline Theme -- 
@@ -92,15 +92,22 @@ endif
 
 " -- PEP8 indentation -- 
 au BufNewFile,BufRead *.py,*.php,*.rb,*.html,*.js,*.ts,*.md
-"au BufNewFile,BufRead *.js, *.html, *.css, *.py:
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
     \ set fileformat=unix
 
+au BufNewFile,BufRead *.css,*.scss,*.json
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
 
 filetype plugin indent on
 
