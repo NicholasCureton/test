@@ -1,27 +1,3 @@
-" --remaping ESC key to ii--  
-
-" Press ii to return to normal mode when in insert mode
-inoremap ii <ESC>
-inoremap <ESC> <NOP>
-
-" Press ii to return to normal mode when in visual mode
-vnoremap ii <ESC>
-vnoremap <ESC> <NOP>
-
-" Use ESC functionality when pressing ii on the modes;
-" insert mode , visual mode, command mode.
-
-set nu
-colorscheme slate
-
-
-" substitute a var
-nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
-
-
-
-"------------------------------------------------------------
-
 "installing vim plugins using Vim Plug
 "( :source ~/.vimrc ) Reload vimrc file.
 "( :PlugInstall ) to intstall plugins.
@@ -39,34 +15,124 @@ Plug 'neoclide/coc.nvim'
 Plug 'Yggdroot/indentLine'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'morhetz/gruvbox'
+Plug 'preservim/nerdtree'
+Plug 'crusoexia/vim-monokai'
 
 "List ends here. Plugins become visible to vim after this call.
 call plug#end()
 
-"-----------------------------------------------------------
+
+
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+" --remaping ESC key to ii--  
+
+" Press ii to return to normal mode when in insert mode
+inoremap ii <ESC>
+inoremap <ESC> <NOP>
+
+" Press ii to return to normal mode when in visual mode
+vnoremap ii <ESC>
+vnoremap <ESC> <NOP>
+
+" Use ESC functionality when pressing ii on the modes;
+" insert mode , visual mode, command mode.
+
+set nu
+colorscheme gruvbox
+set background=dark
+
+" substitute a var
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+
+" Use 256 colors in vim
+set t_Co=256
+
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+" html match tag , use % 
+runtime macros/matchit.vim
+
+" Code Folding by indent
+"set foldmethod=indent
+
+" auto load Code Folding View on start
+" auto save Code Folding View on start
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
+
+" Press double keys faster
+set timeout                 " set timeout to work following two lines
+set timeoutlen=500         " default is 1000
+set ttimeoutlen=100         " default is -1
+
+
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+" Nerd Tree
+map <C-n> :NERDTreeToggle<CR>
+
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+
+
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 " -- EMMET CONFIG --
 "  redefine trigger key
 let g:user_emmet_leader_key=','
 
-"-----------------------------------------------------------
+" Use emmet only on html and css file type
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
-" -- indentline plugin characters config --
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-"-----------------------------------------------------------
+let g:indentLine_color_term = 240            "Indent Line Color
+let g:indentLine_char_list = [ '│', '┆', '┊']
+
+
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 " Replace Space chracter into dash - char
 set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
-"-----------------------------------------------------------
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
 " -- Airline Theme -- 
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_theme='minimalist'
 " -- SMARTER TAB AIRLINE --
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#extensions#tabline#tab_nr_type = 1
 
 "let g:airline_powerline_fonts = 1
 
@@ -74,24 +140,11 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-" unicode symbols
-"let g:airline_left_sep = '»'
-"let g:airline_left_sep = '▶'
-"let g:airline_right_sep = '«'
-"let g:airline_right_sep = '◀'
-"let g:airline_symbols.linenr = '␊'
-"let g:airline_symbols.linenr = '␤'
-"let g:airline_symbols.linenr = '¶'
-"let g:airline_symbols.branch = '⎇'
-"let g:airline_symbols.paste = 'ρ'
-"let g:airline_symbols.paste = 'Þ'
-"let g:airline_symbols.paste = '∥'
-"let g:airline_symbols.whitespace = 'Ξ'
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-"-----------------------------------------------------------
 
 " -- PEP8 indentation -- 
-au BufNewFile,BufRead *.py,*.php,*.rb,*.html,*.js,*.ts,*.md
+au BufNewFile,BufRead *.py,*.php,*.rb,*.js,*.ts,*.md
     \ set tabstop=4 |
     \ set softtabstop=4 |
     \ set shiftwidth=4 |
@@ -100,7 +153,7 @@ au BufNewFile,BufRead *.py,*.php,*.rb,*.html,*.js,*.ts,*.md
     \ set autoindent |
     \ set fileformat=unix
 
-au BufNewFile,BufRead *.css,*.scss,*.json
+au BufNewFile,BufRead *.css,*.scss,*.json,*html
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2 |
@@ -118,7 +171,7 @@ set shiftwidth=4    " Indents will have a width of 4.
 set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces.
 
-"-----------------------------------------------------------
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 " -- COC NVIM CONFIG --
 
@@ -156,7 +209,7 @@ endif
          \ pumvisible() ? "\<C-n>" :
          \ <SID>check_back_space() ? "\<TAB>" :
          \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <expr><C-space> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
       let col = col('.') - 1
@@ -234,6 +287,8 @@ augroup mygroup
  omap ic <Plug>(coc-classobj-i)
  xmap ac <Plug>(coc-classobj-a)
  omap ac <Plug>(coc-classobj-a)
+
+
  " Remap <C-f> and <C-b> for scroll float windows/popups.
  " Note coc#float#scroll works on neovim >= 0.4.0 or vim >= 8.2.0750
 
@@ -249,19 +304,31 @@ endif
  if has('nvim')
   vnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-f>"
   vnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-b>"
-  
+
  endif
+
+
+
  " Use CTRL-S for selections ranges.
  " Requires 'textDocument/selectionRange' support of language server.
  nmap <silent> <C-s> <Plug>(coc-range-select)
  xmap <silent> <C-s> <Plug>(coc-range-select)
+
+
+
  " Add `:Format` command to format current buffer.
   command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
  command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+
+
 " Add `:OR` command for organize imports of the current buffer.
  command! -nargs=0 OR   :call     CocAction('runCommand',
+
+
+
 " 'editor.action.organizeImport')
 " Add (Neo)Vim's native statusline support.
 " NOTE; Please see `:h coc-status` for integrations with 
@@ -271,20 +338,32 @@ endif
 " Mappings for CoCList
 " Show all diagnostics.
  nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+
+
  " Manage extensions.
  nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+
+
  " Show commands.
  nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+
  " Find symbol of current document.
  nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" " Search workspace symbols.
+
+ "" Search workspace symbols.
  nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+
  " Do default action for next item.
  nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+
  " Do default action for previous item.
  nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+
  " Resume latest coc list.
  nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+
 
 
 " -- coc snippets -- 
@@ -294,43 +373,43 @@ endif
 imap <C-l> <Plug>(coc-snippets-expand)
 
 " Use <C-j> for select text for visual placeholder of snippet.
- vmap <C-j> <Plug>(coc-snippets-select)
+vmap <C-j> <Plug>(coc-snippets-select)
 
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
 let g:coc_snippet_next = '<c-j>'
 
 " Use <C-k> for jump to previous placeholder, it's default of coc.nvim
- let g:coc_snippet_prev = '<c-k>'
+let g:coc_snippet_prev = '<c-k>'
 
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 " Use <leader>x for convert visual selected code to snippet
- xmap <leader>x  <Plug>(coc-convert-snippet)"
+xmap <leader>x  <Plug>(coc-convert-snippet)"
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? coc#_select_confirm() :
+"      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"
+"function! s:check_back_space() abort
+"      let col = col('.') - 1
+"        return !col || getline('.')[col - 1]  =~# '\s'
+"    endfunction
 
-function! s:check_back_space() abort
-      let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
-    
-    let g:coc_snippet_next = '<tab>'
+"    let g:coc_snippet_next = '<tab>'
+
+
+
 
  " -- END OF COC CONFIG --
 
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+set noshowmode  " to get rid of thing like --INSERT--
+set noshowcmd  " to get rid of display of last command
+set shortmess+=F  " to get rid of the file name displayed in the command line bar
+set cmdheight=1
 
-
-
-
-
-
-
-
- 
-"------------------------------------------------------------
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

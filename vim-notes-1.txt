@@ -181,3 +181,16 @@ autocmd BufWinEnter *.* silent loadview
 :augroup END
 
 ----------------------------------------
+
+Pressing ii fast
+:set ttimeoutlne=400
+
+----------------------------------------
+
+" move Vim tabs "
+:tabm 0 
+
+It's like saying tab move number.
+
+
+----------------------------------------
