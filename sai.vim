@@ -31,7 +31,7 @@ let g:airline#themes#sai#palette.insert_modified = {
       \ 'airline_c': [ '#ffffff' , '#005f00' , 255     , 22      , ''     ] ,
       \ }
 let g:airline#themes#sai#palette.insert_paste = {
-      \ 'airline_a': [ s:airline_a_insert[0]   , '#d78700' , s:airline_a_insert[2] , 172     , ''     ] ,
+      \ 'airline_a': [ s:airline_a_insert[0]   , '#000000' , s:airline_a_insert[2] , 0     , ''     ] ,
       \ }
 
 let g:airline#themes#sai#palette.terminal = airline#themes#generate_color_map
