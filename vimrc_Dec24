@@ -23,8 +23,8 @@ call plug#end() " }}}
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 " -- My Config -- {{{
-" --remaping ESC key to ii--
 
+" --remaping ESC key to ii--
 " Press ii to return to normal mode when in insert mode
 inoremap ii <ESC>
 inoremap <ESC> <NOP>
@@ -33,35 +33,26 @@ inoremap <ESC> <NOP>
 vnoremap ii <ESC>
 vnoremap <ESC> <NOP>
 
-" Use ESC functionality when pressing ii on the modes;
-" insert mode , visual mode, command mode.
-
 set nu
 set rnu
 colorscheme gruvbox
 set background=dark
 set mouse=a
+set t_Co=256 " Use 256 colors in vim
+runtime macros/matchit.vim  " html match tag , use %
 
 " substitute a var
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
-
-" Use 256 colors in vim
-set t_Co=256
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
-" html match tag , use %
-runtime macros/matchit.vim
-
 " Code Folding by indent
 "set foldmethod=indent
 
-" auto load Code Folding View on start
-" auto save Code Folding View on start
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
+autocmd BufWinLeave *.* mkview            " auto save Code Folding View on leave
+autocmd BufWinEnter *.* silent loadview   " auto load Code Folding View on start
 
 " Press double keys faster
 set timeout                 " set timeout to work following two lines
@@ -71,19 +62,19 @@ set ttimeoutlen=100         " default is -1
 
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-" -- EMMET CONFIG --
+" -- EMMET CONFIG --{{{
 "  redefine trigger key
 let g:user_emmet_leader_key=','
 
 " Use emmet only on html and css file type
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
+" }}}
 
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 let g:indentLine_color_term = 236     "253 for PaperColorTheme. 236 for DarkBG
 let g:indentLine_char_list = [ '│', '┆', '┊'] " shift+ctrl+U │ u2502,┆u2506, ┊u250a,▅ ▇ ▀
-
 
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -120,7 +111,6 @@ set tabstop=4       " The width of a TAB is set to 4.
 set shiftwidth=4    " Indents will have a width of 4.
 set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces. }}}
-
 
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -356,13 +346,6 @@ xmap <leader>x  <Plug>(coc-convert-snippet)"
 
 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-"set noshowmode  " to get rid of thing like --INSERT--
-set noshowcmd  " to get rid of display of last command
-"set shortmess+=F  " to get rid of the file name displayed in the command line bar
-set cmdheight=1
-
-"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 " TABS number config {{{
 fu! MyTabLabel(n)
     let buflist = tabpagebuflist(a:n)
@@ -398,25 +381,39 @@ fu! MyTabLine()
 endfu
 set tabline=%!MyTabLine() " tabs numbers config end }}}
 
-" Custom StatusLine {{{
-set laststatus=2             " To show statusbar in single window, default only show on multiple window
+" StatusLine {{{
+set laststatus=2                 " To show statusbar in single window, default only show on multiple window
 set statusline=
-set statusline+=\ %f         "filename on statusline
-set statusline+=%m           "modified status
-set statusline+=%=           "show following items on the right side of statusline
+set statusline+=\ %f             "filename on statusline
+set statusline+=%m%r%w           "modified, readonly, preview status
+set statusline+=%=               "show following items on the right side of statusline
 set statusline+=\ Lines\ %l/%L   " current line : total line
-"set statusline+=\ [line\ %l\/%L]
-set statusline+=\ %p%%\        "Percentage and a space
-
+set statusline+=\ %p%%\          "Percentage and a space
 " statusline colors black or 236
 hi StatusLine ctermfg=236
-
 " Custom StatusLine finished }}}
 
-
-
+" Netrw config {{{
 let g:netrw_banner=0           " Disable Ntree banner/header
 let g:netrw_browse_split=4     " Open in prior window
 let g:netrw_altv = 1           " Open split to the right
 let g:netrw_liststyle=3        " tree view
 let g:netrw_winsize=30         " netrw window size in Lexplore
+" toggle Netrw ctrl+n
+map <C-n> :Lexplore<CR>
+"}}}
+
+" Fuzzy Search {{{
+"set path+=**
+set path=**
+set wildmenu
+set wildignore+=*.pyc,*.jpg,*.jpeg,*.png,*.mkv
+set wildignore+=*/node_modules/* "people said this dir is huge so ignore it
+" Fuzzy Search }}}
+
+"set noshowmode    " to get rid of thing like --INSERT--
+set noshowcmd      " to get rid of display of last command
+"set shortmess+=F  " to get rid of the file name displayed in the command line bar
+set cmdheight=1
+
+"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
