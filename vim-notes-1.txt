@@ -187,8 +187,8 @@ Pressing ii fast
 
 ----------------------------------------
 
-" move Vim tabs "
-:tabm 0 
+" move swap Vim tabs "
+:tabm 0
 
 It's like saying tab move number.
 
