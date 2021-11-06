@@ -1,0 +1,74 @@
+"{{{ Vim Plug
+" ( :source ~/.vimrc ) Reload vimrc file.
+" ( :PlugInstall ) to intstall plugins.
+" ( :PlugClean ) to uninstall, clean unused plugins.
+
+" Plugins will be downloaded
+call plug#begin('~/.vim/plugged/')
+
+"Declare the list of plugins.
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'tpope/vim-surround'
+Plug 'Yggdroot/indentLine'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'ycm-core/YouCompleteMe'
+Plug 'dense-analysis/ale'
+
+
+"List ends here. Plugins become visible to vim after this call.
+call plug#end() " }}}
+
+
+"{{{ --- my config --- 
+
+filetype plugin on
+syntax on
+set nu rnu
+set cursorline
+colorscheme onehalflight
+set ttyfast                                   "fast terminal for smoother redrawing
+set fdm=marker
+set timeout timeoutlen=1000 ttimeoutlen=100
+
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+set colorcolumn=80
+
+
+autocmd BufWinLeave *.* mkview                " auto save Code Folding View on leave
+autocmd BufWinEnter *.* silent loadview       " auto load Code Folding View on start
+
+
+set t_Co=256
+if exists('+termguicolors')
+        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+        set termguicolors
+endif
+
+let g:ycm_global_ycm_extra_conf = '$HOME/.vim/ycm_extra_conf/ycm_extra_conf.py'
+let g:ycm_use_clangd = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+set completeopt=menu
+
+" make YCM compatible with UltiSnips (using <Ctrl-N>, <Ctrl-P>)
+"let g:ycm_key_list_select_completion=[]
+"let g:ycm_key_list_previous_completion=[]
+
+
+ let g:indentLine_color_term = 253     
+ let g:indentLine_char_list = [ '│', '┆', '┊' ] 
+ let g:indentLine_concealcursor = 'inc'
+ let g:indentLine_conceallevel = 0
+
+
+
+"}}}--- my config --- 
+
+
+
+
+
