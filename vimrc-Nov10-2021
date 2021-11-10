@@ -1,0 +1,92 @@
+"{{{ -- Vim Plug  --
+" ( :source ~/.vimrc ) Reload vimrc file.
+" ( :PlugInstall ) to intstall plugins.
+" ( :PlugClean ) to uninstall, clean unused plugins.
+
+call plug#begin('~/.vim/plugged/')
+
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"Plug 'easymotion/vim-easymotion'
+"Plug 'ycm-core/YouCompleteMe'
+"Plug 'dense-analysis/ale'
+"Plug 'crusoexia/vim-monokai'
+"Plug 'Yggdroot/indentLine'
+
+call plug#end() " }}}
+
+
+"{{{ -- my config -- 
+
+colorscheme onehalfdark
+filetype plugin on
+syntax on
+set nu rnu
+set cursorline
+
+set ttyfast                              "fast terminal for smoother redrawing
+set fdm=marker
+set timeout timeoutlen=1000 ttimeoutlen=100
+
+set mouse=a
+set ttymouse=xterm2
+set colorcolumn=80
+
+
+autocmd BufWinLeave *.* mkview          " auto save Code Folding View on leave
+autocmd BufWinEnter *.* silent loadview " auto load Code Folding View on start
+
+" Only use for onehalfdark theme
+"hi comment ctermbg=240
+
+
+
+
+"}}}--- my config --- 
+
+
+"{{{-- Commented commands --
+
+"let mapleader="<space>"
+"let g:EasyMotion_do_mapping = 0 " Disable default mappings
+"nmap s <Plug>(easymotion-overwin-f)
+"nmap s <Plug>(easymotion-overwin-f2)
+""" Turn on case-insensitive feature
+"let g:EasyMotion_smartcase = 1
+"
+"" JK motions: Line motions
+" map <Leader>j <Plug>(easymotion-j)
+" map <Leader>k <Plug>(easymotion-k)"
+
+"set tabstop=4
+"set softtabstop=4
+"set shiftwidth=4
+"set noexpandtab
+
+"let g:ycm_global_ycm_extra_conf = '$HOME/.vim/ycm_extra_conf/ycm_extra_conf.py'
+"let g:ycm_use_clangd = 1
+"let g:ycm_seed_identifiers_with_syntax = 1
+"set completeopt=menu
+
+" make YCM compatible with UltiSnips (using <Ctrl-N>, <Ctrl-P>)
+"let g:ycm_key_list_select_completion=[]
+"let g:ycm_key_list_previous_completion=[]
+
+" let g:indentLine_color_term = 253     
+" let g:indentLine_char_list = [ '│', '┆', '┊' ] 
+" let g:indentLine_concealcursor = 'inc'
+" let g:indentLine_conceallevel = 0
+
+"set t_Co=256
+"if exists('+termguicolors')
+"        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"        set termguicolors
+"endif
+
+"}}}
