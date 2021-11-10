@@ -6,7 +6,6 @@
 call plug#begin('~/.vim/plugged/')
 
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
@@ -26,7 +25,9 @@ call plug#end() " }}}
 colorscheme onehalfdark
 filetype plugin on
 syntax on
+
 set nu rnu
+set noru
 set cursorline
 
 set ttyfast                              "fast terminal for smoother redrawing
@@ -41,52 +42,47 @@ set colorcolumn=80
 autocmd BufWinLeave *.* mkview          " auto save Code Folding View on leave
 autocmd BufWinEnter *.* silent loadview " auto load Code Folding View on start
 
-" Only use for onehalfdark theme
-"hi comment ctermbg=240
-
-
-
-
-"}}}--- my config --- 
-
-
-"{{{-- Commented commands --
-
-"let mapleader="<space>"
-"let g:EasyMotion_do_mapping = 0 " Disable default mappings
-"nmap s <Plug>(easymotion-overwin-f)
-"nmap s <Plug>(easymotion-overwin-f2)
-""" Turn on case-insensitive feature
-"let g:EasyMotion_smartcase = 1
-"
-"" JK motions: Line motions
-" map <Leader>j <Plug>(easymotion-j)
-" map <Leader>k <Plug>(easymotion-k)"
-
 "set tabstop=4
 "set softtabstop=4
 "set shiftwidth=4
 "set noexpandtab
 
-"let g:ycm_global_ycm_extra_conf = '$HOME/.vim/ycm_extra_conf/ycm_extra_conf.py'
-"let g:ycm_use_clangd = 1
-"let g:ycm_seed_identifiers_with_syntax = 1
-"set completeopt=menu
+"}}}--- my config --- 
 
-" make YCM compatible with UltiSnips (using <Ctrl-N>, <Ctrl-P>)
-"let g:ycm_key_list_select_completion=[]
-"let g:ycm_key_list_previous_completion=[]
 
-" let g:indentLine_color_term = 253     
-" let g:indentLine_char_list = [ '│', '┆', '┊' ] 
-" let g:indentLine_concealcursor = 'inc'
-" let g:indentLine_conceallevel = 0
+"{{{ TabLine   --
 
-"set t_Co=256
-"if exists('+termguicolors')
-"        let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"        let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"        set termguicolors
-"endif
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
 
-"}}}
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tab .' '
+    let s .= (bufname != '' ? fnamemodify(bufname, ':t'). ' ' : '[No Name] ')
+	"let s .= (bufname != '' ? '['. fnamemodify(bufname, ':t') . '] ' : '[No Name] ')
+
+    if bufmodified
+      let s .= ' + ' 
+    endif
+  endfor
+
+  let s .= '%#TabLineFill#'
+  if (exists("g:tablineclosebutton"))
+    let s .= '%=%999XX'
+  endif
+  return s
+endfunction
+set tabline=%!Tabline()
+
+hi TabLine      ctermfg=250    ctermbg=235 cterm=NONE
+hi TabLineFill  ctermfg=250    ctermbg=235 cterm=NONE
+hi TabLineSel   ctermfg=White  ctermbg=239 cterm=NONE
+
+" }}}
