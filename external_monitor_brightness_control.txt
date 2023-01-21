@@ -1,0 +1,18 @@
+Software brightness control
+
+	xrandr -q | grep " connected"
+	DP-4 connected primary 1920x1080+0+0 (normal left inverted right x axis y axis) 527mm x 296mm
+
+----------------------------------------
+Direct Hardware Brightness control
+
+https://wiki.archlinux.org/title/Backlight#External_monitors
+
+
+
+	sudo apt install ddcutil
+	sudo ddcutil capabilities | grep "Feature:10"
+	sudo ddcutil getvcp 10
+	sudo ddcutil setvcp 10 50
+
+first 10 is feature number 50 is brightness.

@@ -1,0 +1,40 @@
+ffmpeg Offical documantation:
+------------------------------------------------------------------------------
+Use the x11grab device:
+
+	ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,200 output.mp4
+
+This will grab the image from desktop,
+starting with the upper-left corner at x=100,y=200 
+with a width and height of 1024⨉768.
+
+If you need audio too, you can use ALSA 
+(see Capture/ALSA for more info):
+	ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,200 -f alsa -ac 2 -i hw:0 output.mkv
+
+Or the pulse input device (see Capture/PulseAudio for more info):
+	ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+100,200 -f pulse -ac 2 -i default output.mkv
+
+------------------------------------------------------------------------------
+
+But....as usual, that code didn't work on linux because I was missing Display device number.
+So I've to type in the terminal:
+	echo $DISPLAY
+which is :1
+So the correct command is...
+	ffmpeg -f x11grab -i :1 out.mkv
+	ffmpeg -framerate 1 -f x11grab -s 1920,1080 -i :1 -vf settb=\(1/30\),setpts=N/TB/30 -c:v libx264rgb -r 30 -crf 0 -preset slower -threads 0 out.mkv
+
+
+
+Oh...by the way..
+-r playback framerate
+-s size(eg resolution 1920x1080)
+
+
+Why doesn't my lossless output look lossless?
+If your input files are RGB,
+it's the RGB to YUV color space conversion. 
+Use -c:v libx264rgb instead.
+
+-c:v libx264rgb
