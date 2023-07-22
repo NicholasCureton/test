@@ -1,0 +1,1 @@
+i disabled systemd-resolved.service that kind of thing because internet is not working.

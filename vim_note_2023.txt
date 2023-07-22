@@ -1,0 +1,9 @@
+Yank lines without moving cursor.
+
+:-2,y
+
+Yank 2 previous lines and current line.
+
+:2,6y
+
+Yank next line 2 to 6.

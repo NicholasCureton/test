@@ -43,6 +43,12 @@ set colorcolumn=80
 autocmd BufWinLeave *.* mkview          " auto save Code Folding View on leave
 autocmd BufWinEnter *.* silent loadview " auto load Code Folding View on start
 
+autocmd filetype cpp nnoremap <F12> : w <bar> exec '!clear && make %< && ./%<'<CR>
+" Compile
+"nnoremap <silent> <F7> :<c-u>make %<<cr>
+" Execute
+"nnoremap <silent> <c-f5> :<c-u>term ./%<<cr>
+
 "set tabstop=4
 "set softtabstop=4
 "set shiftwidth=4
