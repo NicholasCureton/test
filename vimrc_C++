@@ -1,0 +1,182 @@
+"{{{ | Vim Plug |
+" ( :source ~/.vimrc ) Reload vimrc file.
+" ( :PlugInstall ) to intstall plugins.
+" ( :PlugClean ) to uninstall, clean unused plugins.
+
+call plug#begin('~/.vim/plugged/')
+
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'bfrg/vim-cpp-modern'
+Plug 'tikhomirov/vim-glsl'
+
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'dense-analysis/ale' 
+" I'm using ale for linting and autocompletion for now.
+" Clangd is needed to do C,C++ autocompletion for ale.
+" After <C-x>
+" <Ctrl + ]>: Tags file completion
+" <Ctrl + d>: Definition completion
+" <Ctrl + f>: Filename completion (based on files in $PWD)
+" <Ctrl + i>: Path pattern completion
+" <Ctrl + k>: Dictionary completion
+" <Ctrl + l>: Whole line completion
+" <Ctrl + n>: Keyword local completion
+" <Ctrl + o>: Omni completion completion
+" <Ctrl + v>: Command line completion
+
+call plug#end() " }}}
+
+
+"{{{ | my config |
+
+set nocompatible
+set wildmenu
+"colorscheme onehalfdark
+colorscheme onehalflight
+
+set shiftwidth=4               " indentation
+set tabstop=2                  " make TAB look like N space but it is still a TAB
+"set softtabstop=2             " Sets the number of columns for a TAB
+"set expandtab                 " turn TAB to spaces
+au FileType c,cpp setlocal softtabstop=2 shiftwidth=2 tabstop=4 expandtab
+au FileType c,cpp noremap <F12> :w<cr>:!clear && g++ % -o %< && ./%< <cr>
+
+
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete    " enable omnicomplete
+syntax on
+syntax enable
+
+"set complete+=k/usr/include/**
+
+set nu rnu
+set noru
+set cursorline
+set colorcolumn=80
+
+set ttyfast                              "fast terminal for smoother redrawing
+set timeout timeoutlen=1000 ttimeoutlen=100
+
+set mouse=a
+set ttymouse=xterm2
+
+"This will search all files include sub directories under where I run vim.
+"Use vim on project root directory so this command can work better
+set path+=**                            
+
+"color for folded codes
+hi Folded ctermfg=237                    
+
+" Save view and layout styles, delete old view at ~/.vim/view
+autocmd BufWinLeave *.* mkview          " auto save Code Folding View on leave
+autocmd BufWinEnter *.* silent loadview " auto load Code Folding View on start
+
+
+"}}}--- my config --- 
+
+
+" | Plugin Related configs |{{{  
+
+let g:cpp_attributes_highlight = 1      " Enable highlighting of C++11 attributes
+let g:cpp_member_highlight     = 1      " Highlight struct/class member variables
+let g:cpp_function_highlight   = 1
+let g:cpp_simple_highlight     = 1
+
+"set signcolumn=yes                       "always show signcolumn (for linting)
+let g:ale_sign_column_always      = 0
+let g:ale_lint_on_text_changed    = 'normal'
+let g:ale_lint_on_insert_leave    = 1
+let g:ale_lint_on_enter           = 0
+let g:ale_lint_delay              = 200    "default 200 
+let g:ale_completion_enabled      = 1      "bug, autocomplete trigger linter
+
+" To make POPUP little windows alike
+set completeopt=menu,popup
+let g:ale_hover_to_floating_preview = 1
+let g:ale_popup_menu_enabled        = 1
+
+nnoremap <MiddleMouse> :ALEHover<cr>
+
+"format for echo messages
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+" Write messages to quickfix instead of Location List
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
+" show errors and warnings on statusline
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+set laststatus=2                   "show statusline always
+"%1* mean use User1 colors. %3 followed by {} is space before {}
+set statusline=%1*%3{LinterStatus()}    
+" %= is Align Right. %p%% is Percentage of page. \ is Separator
+set statusline+=\ %=%p%%\ 
+" define customized color
+"hi User1 ctermfg=grey ctermbg=237
+
+"--- }}}
+
+
+"{{{ | TabLine |
+
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
+
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tab .' '
+    let s .= (bufname != '' ? fnamemodify(bufname, ':t'). ' ' : '[No Name] ')
+	"let s .= (bufname != '' ? '['. fnamemodify(bufname, ':t') . '] ' : '[No Name] ')
+
+    if bufmodified
+      let s .= ' + ' 
+    endif
+  endfor
+
+  let s .= '%#TabLineFill#'
+  if (exists("g:tablineclosebutton"))
+    let s .= '%=%999XX'
+  endif
+  return s
+endfunction
+set tabline=%!Tabline()
+
+hi TabLine      ctermfg=250    ctermbg=235 cterm=NONE
+hi TabLineFill  ctermfg=250    ctermbg=235 cterm=NONE
+hi TabLineSel   ctermfg=White  ctermbg=239 cterm=NONE
+
+" }}}
+
+
+" My NOTES
+"Save session
+":mks! 
+":mksession ~/mysession.vim
+
+":source ~/mysession.vim
+"or open vim with the -S option:
+"$ vim -S ~/mysession.vim
